@@ -14,13 +14,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Route::get('/index_user', function () {
-    // ここに個人用ログイン画面の処理を書く
+    // ここにユーザーログイン画面の表示処理を書く
 })->name('user.login');
 
-Route::get('/company/index_com', function () {
-    // ここに企業用ログイン画面の処理を書く
+Route::get('/company/login', function () {
+    return view('company.login');
 })->name('company.login');
+
+Route::get('/company/register', function () {
+    // ここに企業の登録画面の表示処理を書く
+    return view('company.register');
+})->name('company.register');
+
