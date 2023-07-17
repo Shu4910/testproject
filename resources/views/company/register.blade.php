@@ -28,7 +28,8 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('write_com') }}" method="post" id="myForm" onsubmit="return checkPasswordMatch();">
+                            <form action="{{ route('write') }}" method="post" id="myForm" onsubmit="return checkPasswordMatch();">
+                            @csrf
                             <div class="form-group">
                                     <label for="houjin">法人・事業者名:</label>
                                     <input type="text" class="form-control" id="houjin" name="houjin">
