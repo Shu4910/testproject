@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use App\Models\BizdiverseCompany;
+
+
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
@@ -97,6 +101,7 @@ class CompanyController extends Controller
         return redirect()->back(); // ログインページにリダイレクト
     }
 
+    
     public function dashboard()
     {
         $total_counts = DB::table('messages')
@@ -113,4 +118,169 @@ class CompanyController extends Controller
         return view('company.dashboard', ['counts' => $counts, 'total_counts' => $total_counts]);
 
     }
+
+    public function show()
+    {
+        $com_email = Auth::user()->com_email;
+        $user = BizdiverseCompany::where('com_email', $com_email)->first();
+
+        return view('user', ['userData' => $user]);
+    }
+
+    public function update(Request $request)
+    {
+        $newPass = $request->input('pass');
+        $confirmPass = $request->input('confirm_pass');
+        $msg = '';
+
+        if ($newPass === $confirmPass) {
+            // パスワードをハッシュ化
+            $hashedPass = Hash::make($newPass);
+
+            $user = BizdiverseCompany::where('com_email', Auth::user()->com_email)->first();
+            $user->fill($request->all());
+            $user->pass = $hashedPass;
+            $user->save();
+
+            Auth::user()->com_email = $request->input('com_email'); // Update the session email
+            $msg = '登録を更新しました。';
+        } else {
+            $msg = 'パスワードが一致しません。';
+        }
+
+        return redirect('/user')->with('msg', $msg);
+    }
+
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('dash_com');
+    }
+
+    public function showInfo(Request $request)
+    {
+        $com_email = $request->session()->get('com_email', ''); // セッションからメールアドレスを取得
+        $msg = '';
+
+        if ($request->isMethod('post')) {
+            // ログアウトが押された場合
+            if ($request->has('logout')) {
+                return redirect()->route('dashboard');
+            }
+
+            if ($request->has('update')) {
+                $newHoujin = $request->input('houjin');
+                $newTanto = $request->input('tanto');
+                $newMail = $request->input('com_email');
+                $newTel = $request->input('com_tel');
+                $newTypes = $request->input('types');
+                $newContent = $request->input('content');
+                $newZipcode = $request->input('zipcode');
+                $newAddress1 = $request->input('address1');
+                $newAddress2 = $request->input('address2');
+                $newAddress3 = $request->input('address3');
+                $newPass = $request->input('pass');
+                $confirmPass = $request->input('confirm_pass');
+
+                if ($newPass === $confirmPass) {
+                    // パスワードをハッシュ化
+                    $hashedPass = password_hash($newPass, PASSWORD_DEFAULT);
+
+                    DB::table('bizdiverse_company')
+                        ->where('com_email', $com_email)
+                        ->update([
+                            'houjin' => $newHoujin,
+                            'tanto' => $newTanto,
+                            'com_email' => $newMail,
+                            'com_tel' => $newTel,
+                            'types' => $newTypes,
+                            'pass' => $hashedPass,
+                            'content' => $newContent,
+                            'zipcode' => $newZipcode,
+                            'address1' => $newAddress1,
+                            'address2' => $newAddress2,
+                            'address3' => $newAddress3,
+                        ]);
+
+                    $request->session()->put('com_email', $newMail); // セッションのメールアドレスを更新
+                    $com_email = $newMail; // ローカルのメールアドレス変数を更新
+                    $msg = '登録を更新しました。';
+                } else {
+                    $msg = 'パスワードが一致しません。';
+                }
+            }
+        }
+
+        $userData = DB::table('bizdiverse_company')
+            ->where('com_email', $com_email)
+            ->first();
+
+        return view('company.info', compact('msg', 'userData'));
+    }
+
+    public function update2(Request $request)
+    {
+
+        $com_email = Auth::user()->com_email;
+        $com_email = $request->session()->get('com_email', ''); // セッションからメールアドレスを取得
+        $msg = '';
+
+
+        $newMail = $request->input('com_email');
+        $prefecture = $request->input('prefecture');
+        $area = $request->input('area');
+        $cities = $request->input('city');
+
+        // Convert cities array to comma-separated string
+        $citiesString = is_array($cities) ? implode(",", $cities) : '';
+
+        $user->com_email = $newMail;
+        $user->prefecture = $prefecture;
+        $user->area = $area;
+        $user->city = $citiesString;
+        $user->save();
+
+        $msg = '登録を更新しました。';
+
+        return redirect()->back()->with('msg', $msg);
+    }
+
+    public function logout2()
+    {
+        Auth::logout();
+        return redirect('login');
+    }
+
+    public function ComScoutSet()
+{
+    
+    $com_email = $request->session()->get('com_email', ''); // セッションからメールアドレスを取得
+    $com_email = Auth::user()->com_email;
+    $user = Auth::user();
+    
+    if ($user === null) {
+        return redirect('login');
+    }
+
+    $cities = explode(',', $user->city);
+    
+    $cityMappings = [
+        "chiyoda" => "千代田区",
+        "minato" => "港区",
+        "hachi" => "八王子",
+        "tachi" => "立川市",
+        // 他の都市もここに追加
+    ];
+    
+    return view('com_scout_set', ['msg' => '', 'userData' => $user, 'cities' => $cities, 'cityMappings' => $cityMappings]);
 }
+
+
+
+
+
+    
+}
+
+

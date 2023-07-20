@@ -9,7 +9,7 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-sm-4">
-            <a href="{{ route('info_com') }}" class="btn btn-primary btn-block mb-2">基本情報修正画面</a>
+            <a href="{{ route('info') }}" class="btn btn-primary btn-block mb-2">基本情報修正画面</a>
             <a href="{{ route('com_scout_set') }}" class="btn btn-primary btn-block mb-2">条件設定画面</a>
             <a href="{{ route('cus_search') }}" class="btn btn-primary btn-block mb-2">会員検索画面</a>
             <a href="{{ route('com_chat') }}" class="btn btn-primary btn-block mb-2">スカウトやり取り画面</a>

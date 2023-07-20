@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompanyController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,21 +37,11 @@ Route::get('/company/login', function () {
 Route::post('/company/login', [CompanyController::class, 'login'])->name('company.login');
 Route::get('/dashboard', 'App\Http\Controllers\CompanyController@dashboard')->name('dashboard');
 
-Route::get('/company/info_com', function () {
-    return view('index');
-});
 
-Route::get('/info_com', function () {
-    //
-})->name('info_com');
 
-Route::get('/com_scout_set', function () {
-    //
-})->name('com_scout_set');
+Route::get('/com_scout_set', [CompanyController::class, 'comScoutSet'])->name('com_scout_set');
 
-Route::get('/com_scout_set', function () {
-    //
-})->name('com_scout_set');
+
 
 Route::get('/cus_search', function () {
     //
@@ -67,3 +58,9 @@ Route::get('/index_com', function () {
 Route::get('/result', function () {
     //
 })->name('result');
+
+Route::get('/info', 'App\Http\Controllers\CompanyController@showInfo')->name('info');
+Route::post('/info', 'App\Http\Controllers\CompanyController@showInfo');
+
+Route::post('/company/update2', [CompanyController::class, 'update2'])->name('company.update2');
+Route::post('/company/logout2', [CompanyController::class, 'logout2'])->name('company.logout2');
