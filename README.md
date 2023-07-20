@@ -1,3 +1,59 @@
+# kadai10
+
+## DEMO
+
+  - デプロイしている場合はURLを記入（任意）
+
+## 紹介と使い方
+
+  - どんなプロダクトなのか，どのように操作するのか
+  普通のPHPで書いたコードをLaravel版に変更。今後のことを考慮して、Laravelの難易度について理解した。
+
+  - を見た人がわかるように書こう！
+
+## 工夫した点
+
+  - めっちゃ書こう
+  Laravelにコードを書き換える点。LaravelのMVCの考え方の基礎を理解する。
+
+## 苦戦した点
+
+  - 明日の自分への伝言
+  たぶんコードがガラパゴス化している点もあるが、想像以上にLaravelの置き換えに苦戦。
+  チャットGPTに質問する際もMVCモデルを考慮して質問する必要があるため想像以上に苦戦した。
+
+## 参考にした web サイトなど
+
+  - 後で見返せるように
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
